@@ -5,17 +5,16 @@
   border: 0;
 }
 .container {
-  width: 80%;
+  width: 20%;
   padding-right: 15px;
   padding-left: 15px;
-  margin-right: auto;
-  margin-left: auto;
-  position: absolute;
-  top: 90%;
+  position: relative;
+  top: 50%;
   left: 50%;
-  transform: translate(-50%, -100%);
+  transform: translate(-50%, 50%);
 }
 .resultEle {
+  min-height: 40px;
   font-size: 40px;
   text-align: right;
   margin-bottom: 10px;
@@ -35,10 +34,13 @@
   margin-left: 12px;
 }
 .btn-zero {
-  width: 155px;
+  /* width: 155px;
   border-radius: 20px;
   height: 40px;
-  font-size: 25px;
+  font-size: 25px; */
+  border-radius: 25px;
+  width: 100.5px;
+  height: 45px;
 }
 .btn-clear {
   border-radius: 25px;

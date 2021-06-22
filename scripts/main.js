@@ -1,77 +1,92 @@
-//decrale resultEle here because i use it 12 before document ready
-let resultEle = null;
-let num1 = "";
-let operator = null;
-let num2 = "";
+class Calculator {
+  constructor(num1, num2, operator, resultEle) {
+    this.num1 = "";
+    this.num2 = "";
+    this.operator = null;
+    this.resultEle = "";
+  } //end
+  init = () => {
+    let documentReady = (e) => {
+      let numBtn = document.getElementsByClassName("btn-num");
+      let operatorBtn = document.getElementsByClassName("btn-operator");
+      calc1.resultEle = document.querySelector(".resultEle");
+      let clearBtn = document.querySelector(".btn-clear");
+      let equalBtn = document.querySelector(".btn-equal");
+      for (var i = 0; i < numBtn.length; i++) {
+        numBtn[i].addEventListener("click", calc1.onBtnClick);
+      }
+      for (var i = 0; i < operatorBtn.length; i++) {
+        operatorBtn[i].addEventListener("click", calc1.OnOperatorClick);
+      }
+      equalBtn.addEventListener("click", calc1.onEqualClick);
+      clearBtn.addEventListener("click", calc1.onClearClick);
+    };
+    document.addEventListener("DOMContentLoaded", documentReady);
+  };
 
-function onBtnClick(e) {
-  let number = e.target.innerHTML;
-  if (operator === null) {
-    num1 += number;
-    resultEle.innerHTML = num1;
-  } else {
-    num2 += number;
-    resultEle.innerHTML = num2;
-  }
-}
+  onBtnClick = (e) => {
+    debugger;
+    let number = e.target.dataset.number;
+    if (this.operator === null) {
+      this.num1 += number;
+      this.displayResult(this.num1);
+    } else {
+      this.num2 += number;
+      this.displayResult(this.num2);
+    }
+  }; //end
 
-function OnOperatorClick(e) {
-  operator = e.target.innerHTML;
-  resultEle.innerHTML = "";
-}
+  OnOperatorClick = (e) => {
+    debugger;
+    this.operator = e.target.dataset.operator;
+    this.displayResult("");
+  }; //end
 
-function onEqualClick() {
-  switch (operator) {
-    case "%":
-      resultEle.innerHTML = Number(num1) % Number(num2);
-      break;
-    case "/":
-      resultEle.innerHTML = Number(num1) / Number(num2);
-      break;
-    case "*":
-      resultEle.innerHTML = Number(num1) * Number(num2);
-      break;
-    case "-":
-      resultEle.innerHTML = Number(num1) - Number(num2);
-      break;
-    case "+":
-      resultEle.innerHTML = Number(num1) + Number(num2);
-      break;
-    default:
-      resultEle.innerHTML = "there are an error";
-      break;
-  }
-}
+  onEqualClick = () => {
+    debugger;
+    switch (this.operator) {
+      case "%":
+        let modulus = Number(this.num1) % Number(this.num2);
+        this.displayResult(modulus);
+        break;
+      case "/":
+        let divide = Number(this.num1) / Number(this.num2);
+        this.displayResult(divide);
+        break;
+      case "*":
+        let multiple = Number(this.num1) * Number(this.num2);
+        this.displayResult(multiple);
+        break;
+      case "-":
+        let subtraction = Number(this.num1) - Number(this.num2);
+        this.displayResult(subtraction);
+        break;
+      case "+":
+        let summation = Number(this.num1) + Number(this.num2);
+        this.displayResult(summation);
+        break;
+      default:
+        let defaultMsg = "there are an error";
+        this.displayResult(defaultMsg);
+        break;
+    }
+  }; ///end
 
-function onClearClick() {
-  num1 = "";
-  num2 = "";
-  operator = null;
-  resultEle.innerHTML = "";
-}
+  onClearClick = () => {
+    debugger;
+    this.num1 = "";
+    this.num2 = "";
+    this.operator = null;
+    this.displayResult("");
+  }; //end
+  displayResult = (massage) => {
+    this.resultEle.innerHTML = massage;
+  }; //end
+} /** class end **/
+let calc1 = new Calculator();
 
-function onDocumentReady(CB) {
+let onDocumentReady = (CB) => {
   document.addEventListener("DOMContentLoaded", CB);
-}
+}; //end
 
-document.addEventListener("DOMContentLoaded", documentReady);
-function documentReady(e) {
-  let numBtn = document.getElementsByClassName("btn-num");
-  let operatorBtn = document.getElementsByClassName("btn-operator");
-  resultEle = document.querySelector(".resultEle");
-  let clearBtn = document.querySelector(".btn-clear");
-  let equalBtn = document.querySelector(".btn-equal");
-
-  for (var i = 0; i < numBtn.length; i++) {
-    numBtn[i].addEventListener("click", onBtnClick);
-  }
-
-  for (var i = 0; i < operatorBtn.length; i++) {
-    operatorBtn[i].addEventListener("click", OnOperatorClick);
-  }
-
-  equalBtn.addEventListener("click", onEqualClick);
-
-  clearBtn.addEventListener("click", onClearClick);
-}
-onDocumentReady(documentReady);
+onDocumentReady(calc1.init);
