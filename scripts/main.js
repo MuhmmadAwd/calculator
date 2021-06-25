@@ -1,92 +1,98 @@
-class Calculator {
-  constructor(num1, num2, operator, resultEle) {
+class CalculatorEngin {
+  constructor(num1, num2, operator) {
     this.num1 = "";
     this.num2 = "";
     this.operator = null;
-    this.resultEle = "";
-  } //end
-  init = () => {
-    let documentReady = (e) => {
-      let numBtn = document.getElementsByClassName("btn-num");
-      let operatorBtn = document.getElementsByClassName("btn-operator");
-      calc1.resultEle = document.querySelector(".resultEle");
-      let clearBtn = document.querySelector(".btn-clear");
-      let equalBtn = document.querySelector(".btn-equal");
-      for (var i = 0; i < numBtn.length; i++) {
-        numBtn[i].addEventListener("click", calc1.onBtnClick);
-      }
-      for (var i = 0; i < operatorBtn.length; i++) {
-        operatorBtn[i].addEventListener("click", calc1.OnOperatorClick);
-      }
-      equalBtn.addEventListener("click", calc1.onEqualClick);
-      clearBtn.addEventListener("click", calc1.onClearClick);
-    };
-    document.addEventListener("DOMContentLoaded", documentReady);
-  };
-
-  onBtnClick = (e) => {
-    debugger;
-    let number = e.target.dataset.number;
+    this.theResult = "";
+  }
+  setNumber = (number) => {
     if (this.operator === null) {
       this.num1 += number;
-      this.displayResult(this.num1);
     } else {
       this.num2 += number;
-      this.displayResult(this.num2);
     }
-  }; //end
-
-  OnOperatorClick = (e) => {
-    debugger;
-    this.operator = e.target.dataset.operator;
-    this.displayResult("");
-  }; //end
-
-  onEqualClick = () => {
-    debugger;
+  };
+  setOperator = (theOperator) => {
+    this.operator = theOperator;
+  };
+  calculate = () => {
     switch (this.operator) {
       case "%":
-        let modulus = Number(this.num1) % Number(this.num2);
-        this.displayResult(modulus);
+        this.theResult = Number(this.num1) % Number(this.num2);
         break;
       case "/":
-        let divide = Number(this.num1) / Number(this.num2);
-        this.displayResult(divide);
+        this.theResult = Number(this.num1) / Number(this.num2);
         break;
       case "*":
-        let multiple = Number(this.num1) * Number(this.num2);
-        this.displayResult(multiple);
+        this.theResult = Number(this.num1) * Number(this.num2);
         break;
       case "-":
-        let subtraction = Number(this.num1) - Number(this.num2);
-        this.displayResult(subtraction);
+        this.theResult = Number(this.num1) - Number(this.num2);
         break;
       case "+":
-        let summation = Number(this.num1) + Number(this.num2);
-        this.displayResult(summation);
+        this.theResult = Number(this.num1) + Number(this.num2);
         break;
       default:
-        let defaultMsg = "there are an error";
-        this.displayResult(defaultMsg);
+        this.theResult = "there are an error";
         break;
     }
+  };
+  clearCalc = () => {
+    this.num1 = "";
+    this.num2 = "";
+    this.operator = null;
+    calc1.displayResult("");
+  };
+}
+class CalculatorUi {
+  constructor(calcEngin, resultEle) {
+    this.resultEle = "";
+    this.calcEngin = new CalculatorEngin();
+  } //end
+  init = (e) => {
+    let numBtn = document.getElementsByClassName("btn-num");
+    let operatorBtn = document.getElementsByClassName("btn-operator");
+    this.resultEle = document.querySelector(".resultEle");
+    let clearBtn = document.querySelector(".btn-clear");
+    let equalBtn = document.querySelector(".btn-equal");
+    for (var i = 0; i < numBtn.length; i++) {
+      numBtn[i].addEventListener("click", this.onBtnClick);
+    }
+    for (var i = 0; i < operatorBtn.length; i++) {
+      operatorBtn[i].addEventListener("click", this.OnOperatorClick);
+    }
+    equalBtn.addEventListener("click", this.onEqualClick);
+    clearBtn.addEventListener("click", this.onClearClick);
+  };
+  onBtnClick = (e) => {
+    let number = e.target.dataset.number;
+    this.calcEngin.setNumber(number);
+    if (this.calcEngin.operator === null) {
+      this.displayResult(this.calcEngin.num1);
+    } else {
+      this.displayResult(this.calcEngin.num2);
+    }
+  }; //end
+  OnOperatorClick = (e) => {
+    let theOperator = e.target.dataset.operator;
+    this.calcEngin.setOperator(theOperator);
+    this.displayResult("");
+  }; //end
+  onEqualClick = () => {
+    this.calcEngin.calculate();
+    this.displayResult(this.calcEngin.theResult);
   }; ///end
 
   onClearClick = () => {
-    debugger;
-    this.num1 = "";
-    this.num2 = "";
-    this.operator = null;
-    this.displayResult("");
+    this.calcEngin.clearCalc();
   }; //end
   displayResult = (massage) => {
     this.resultEle.innerHTML = massage;
   }; //end
 } /** class end **/
-let calc1 = new Calculator();
+let calc1 = new CalculatorUi();
 
 let onDocumentReady = (CB) => {
   document.addEventListener("DOMContentLoaded", CB);
 }; //end
-
 onDocumentReady(calc1.init);

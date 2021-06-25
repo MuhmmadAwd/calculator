@@ -5,7 +5,7 @@
   border: 0;
 }
 .container {
-  width: 20%;
+  width: 50%;
   padding-right: 15px;
   padding-left: 15px;
   position: relative;
@@ -34,10 +34,6 @@
   margin-left: 12px;
 }
 .btn-zero {
-  /* width: 155px;
-  border-radius: 20px;
-  height: 40px;
-  font-size: 25px; */
   border-radius: 25px;
   width: 100.5px;
   height: 45px;
